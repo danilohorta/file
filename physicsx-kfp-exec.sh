@@ -13,8 +13,8 @@ input_file_path="$3"
 output_file_path="$4"
 
 uvx physicsx-component-host \
-  --with "$component_distribution" -- \
-  --with "$component_distribution" -- \
+  --with "https://danilohorta.github.io/file/physicsx_component_protocol-0.1.0-py3-none-any.whl" -- \
+  --with "https://danilohorta.github.io/file/physicsx_component_host-0.1.0-py3-none-any.whl" -- \
   --with "$component_distribution" -- \
   --component-name "$component_name" \
   --input-file-path "$input_file_path" \

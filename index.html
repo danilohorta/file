@@ -1,1 +1,35 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downloads</title>
+</head>
+<body>
+    <h1>Downloads</h1>
+    <ul id="files">Loading...</ul>
+    <script>
+        const owner = window.location.hostname.split('.')[0];
+        const repo = window.location.pathname.split('/')[1] || owner;
+
+        fetch(`https://api.github.com/repos/${owner}/${repo}/contents/`)
+            .then(r => r.json())
+            .then(files => {
+                const exclude = ['index.html', 'README.md', '.gitignore'];
+                const downloadable = files.filter(f => f.type === 'file' && !exclude.includes(f.name));
+
+                const list = document.getElementById('files');
+                if (downloadable.length === 0) {
+                    list.innerHTML = '<li>No files available</li>';
+                } else {
+                    list.innerHTML = downloadable.map(f =>
+                        `<li><a href="${f.name}" download>${f.name}</a></li>`
+                    ).join('');
+                }
+            })
+            .catch(() => {
+                document.getElementById('files').innerHTML = '<li>Error loading files</li>';
+            });
+    </script>
+</body>
+</html>
